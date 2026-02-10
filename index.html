@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kartu Ucapan Hari Valentine</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+    <!-- Latar Belakang dengan Animasi Hati -->
+    <div class="background">
+        <canvas id="hearts-canvas"></canvas>
+        <div class="stars"></div>
+    </div>
+
+    <!-- Kontainer Utama -->
+    <div class="main-container">
+        
+        <!-- Header dengan Judul -->
+        <header class="header">
+            <h1>💝 Hari Valentine 💝</h1>
+            <p>Jadilah Spesial Dalam Caraku</p>
+        </header>
+
+        <!-- Kotak Amplop (Envelope Box) -->
+        <div class="envelope-container">
+            <div class="envelope" id="envelope">
+                <div class="envelope-front">
+                    <div class="wax-seal" id="wax-seal">
+                        <span class="seal-number">1</span>
+                    </div>
+                    <p class="envelope-text">Buka Aku...</p>
+                </div>
+                <div class="envelope-back" id="envelope-back">
+                    <div class="message-box">
+                        <h2>💌 Pesananmu 💌</h2>
+                        <p id="display-message" class="display-message">Tulis pesan Anda di bawah...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <nav class="nav-tabs">
+            <button class="tab-btn active" data-tab="pesan">Pesan</button>
+            <button class="tab-btn" data-tab="musik">Musik</button>
+            <button class="tab-btn" data-tab="galeri">Galeri</button>
+            <button class="tab-btn" data-tab="puisi">Puisi</button>
+            <button class="tab-btn" data-tab="peta">Peta</button>
+            <button class="tab-btn" data-tab="segel">Segel</button>
+        </nav>
+
+        <!-- Tab Content -->
+        <div class="tab-content">
+            
+            <!-- Tab Pesan -->
+            <div class="tab-pane active" id="pesan">
+                <div class="section-wrapper">
+                    <h3>✍️ Tulis Pesan Pribadi</h3>
+                    <textarea id="message-input" placeholder="Tulis pesan cintamu di sini..."></textarea>
+                    <button class="btn-primary" onclick="updateMessage()">Tampilkan Pesan</button>
+                    <div class="countdown-timer">
+                        <h4>⏰ Perhitungan Mundur ke Hari Valentine</h4>
+                        <div class="timer" id="countdown-timer"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Musik -->
+            <div class="tab-pane" id="musik">
+                <div class="section-wrapper">
+                    <h3>🎹 Musik Romantis</h3>
+                    <p>Dengarkan melodi piano yang lembut</p>
+                    <div class="music-controls">
+                        <button class="btn-primary" onclick="playPiano()">
+                            <i class="fas fa-play"></i> Putar Musik
+                        </button>
+                        <button class="btn-secondary" onclick="stopPiano()">
+                            <i class="fas fa-stop"></i> Hentikan
+                        </button>
+                        <div class="volume-control">
+                            <label for="volume">Volume:</label>
+                            <input type="range" id="volume" min="0" max="100" value="50" onchange="setVolume(this.value)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Galeri -->
+            <div class="tab-pane" id="galeri">
+                <div class="section-wrapper">
+                    <h3>📸 Galeri Foto Bersama</h3>
+                    <div class="flower-frame-selector">
+                        <label>Pilih Bingkai Bunga:</label>
+                        <select id="frame-select" onchange="selectFrame(this.value)">
+                            <option value="roses">Mawar Merah</option>
+                            <option value="tulips">Tulip Kuning</option>
+                            <option value="daisies">Bunga Daisy Putih</option>
+                            <option value="sakura">Sakura Pink</option>
+                            <option value="sunflower">Bunga Matahari</option>
+                        </select>
+                    </div>
+                    <input type="file" id="photo-input" accept="image/*" multiple onchange="handlePhotoUpload(event)">
+                    <button class="btn-primary" onclick="document.getElementById('photo-input').click()">
+                        <i class="fas fa-upload"></i> Unggah Foto
+                    </button>
+                    <div class="gallery-display" id="gallery-display"></div>
+                </div>
+            </div>
+
+            <!-- Tab Puisi -->
+            <div class="tab-pane" id="puisi">
+                <div class="section-wrapper">
+                    <h3>📖 Puisi Romantis Rahasia</h3>
+                    <button class="btn-primary" onclick="generatePoetry()">
+                        <i class="fas fa-wand-magic-sparkles"></i> Buat Puisi Otomatis
+                    </button>
+                    <div id="poetry-display" class="poetry-display"></div>
+                    <textarea id="poetry-input" placeholder="Atau tulis puisi Anda sendiri..."></textarea>
+                    <button class="btn-secondary" onclick="savePoetry()">Simpan Puisi</button>
+                </div>
+            </div>
+
+            <!-- Tab Peta -->
+            <div class="tab-pane" id="peta">
+                <div class="section-wrapper">
+                    <h3>🗺️ Peta Kenangan Bersama</h3>
+                    <div id="map" style="height: 400px; border-radius: 10px; overflow: hidden;"></div>
+                    <div class="map-info">
+                        <input type="text" id="location-name" placeholder="Nama lokasi kenangan Anda...">
+                        <button class="btn-primary" onclick="addMemoryLocation()">
+                            <i class="fas fa-location-dot"></i> Tandai Lokasi
+                        </button>
+                    </div>
+                    <div id="locations-list" class="locations-list"></div>
+                </div>
+            </div>
+
+            <!-- Tab Segel -->
+            <div class="tab-pane" id="segel">
+                <div class="section-wrapper">
+                    <h3>🔒 Pilih Segel Lilin Digital</h3>
+                    <div class="seal-options">
+                        <div class="seal-option" onclick="setSeal(1)">
+                            <div class="seal-preview seal-1"></div>
+                            <p>Mawar Merah</p>
+                        </div>
+                        <div class="seal-option" onclick="setSeal(2)">
+                            <div class="seal-preview seal-2"></div>
+                            <p>Hati Emas</p>
+                        </div>
+                        <div class="seal-option" onclick="setSeal(3)">
+                            <div class="seal-preview seal-3"></div>
+                            <p>Bintang Perak</p>
+                        </div>
+                        <div class="seal-option" onclick="setSeal(4)">
+                            <div class="seal-preview seal-4"></div>
+                            <p>Bululintar</p>
+                        </div>
+                        <div class="seal-option" onclick="setSeal(5)">
+                            <div class="seal-preview seal-5"></div>
+                            <p>Mahkota Mutiara</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tombol Aksi Utama -->
+        <div class="action-buttons">
+            <button class="btn-download" onclick="downloadCard()">
+                <i class="fas fa-download"></i> Unduh Kartu
+            </button>
+            <button class="btn-share" onclick="shareCard()">
+                <i class="fas fa-share-nodes"></i> Bagikan
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Dibuat dengan 💕 untuk Hari Valentine Spesial Anda</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
