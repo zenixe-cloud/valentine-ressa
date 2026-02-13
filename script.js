@@ -542,7 +542,7 @@ function shareCard() {
     // Cek jika Web Share API tersedia
     if (navigator.share) {
         navigator.share({
-            title: '💝 Kartu Ucapan Valentine',
+            title: '💝 Jangan Dibukaaa',
             text: shareText,
         }).catch(err => console.log('Error:', err));
     } else {
@@ -568,3 +568,4 @@ document.addEventListener('click', function(e) {
         e.target.parentElement.remove();
     }
 });
+
